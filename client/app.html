@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app.css">
+    <title>Steel Quality Inspection</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Steel Quality Inspection</h1>
+        <div class="image-preview" id="image-preview">
+            <img id="uploaded-image" src="" alt="Uploaded Image">
+        </div>
+        <form id="upload-form" class="form" enctype="multipart/form-data">
+            <input type="file" id="image-input" name="image_data" accept="image/*" onchange="previewImage(event)">
+            <button type="button" id="predict-button" class="upload-button">Predict</button>
+        </form>
+        <div class="prediction-result" id="prediction-result"></div>
+    </div>
+    <script>
+        function previewImage(event) {
+            const uploadedImage = document.getElementById('uploaded-image');
+            uploadedImage.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadForm = document.getElementById('upload-form');
+            const predictButton = document.getElementById('predict-button');
+            const predictionResult = document.getElementById('prediction-result');
+
+            predictButton.addEventListener('click', function() {
+                const formData = new FormData(uploadForm);
+
+                fetch('/classify_image', {  // Change the endpoint to match your Flask server
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    predictionResult.innerHTML = `Prediction: ${result.prediction}`;
+                })
+                .catch(error => {
+                    predictionResult.innerHTML = 'Error predicting image.';
+                    console.error(error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
