@@ -18,3 +18,4 @@ def classify_image():
 if __name__ == '__main__':
     Util.load_save_artifacts()
     app.run(port=5000)
+#post only
