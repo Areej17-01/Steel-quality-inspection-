@@ -6,25 +6,16 @@ from Util import classify_image
 
 app = Flask(__name__)
 
-@app.route('/classify', methods=['GET', 'POST'])
-def classify():
-    if request.method == 'POST':
-        try:
-            image = request.form['image']
-            if image:
-                result = classify_image(image)  # Call your utility function
-                return jsonify(result)
-            else:
-                return jsonify({"error": "No image uploaded."}), 400
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-    elif request.method == 'GET':
 
-        return jsonify({"message": "This is a GET request to the /classify endpoint."})
-    else:
-        return jsonify({"error": "Invalid request method."}), 400
+@app.route('/classify_image', methods=['GET', 'POST'])
+def classify_image():
+    image_data = request.files['image']
+    response = jsonify(Util.classify_image(image_data))
+
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 
 if __name__ == '__main__':
     Util.load_save_artifacts()
-    app.run(host='0.0.0.0', port=5000)
-
+    app.run(port=8080)
