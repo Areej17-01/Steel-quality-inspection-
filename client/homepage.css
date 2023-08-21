@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("steel-used-to-build-a-building.jpg");
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+.title {
+    font-size: 24px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.main-title {
+    font-size: 60px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.classify-button, .description-button {
+    padding: 15px 30px;
+    background-color: #A9DFBF;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.classify-button:hover, .description-button:hover {
+    background-color: #4cae4c;
+}
