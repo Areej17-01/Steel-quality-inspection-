@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 
 import util
 from util import classify_image
@@ -7,8 +7,18 @@ app = Flask(__name__)
 
 
 @app.route("/")
+def home():
+    return render_template("homepage.html")
+
+
+@app.route("/index")
 def index():
     return render_template("index.html")
+
+
+@app.route("/description")
+def description():
+    return render_template("description.html")
 
 
 @app.route("/classify", methods=["POST"])
