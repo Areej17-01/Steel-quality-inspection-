@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Signup Form</title>
+</head>
+<style>
+    body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url('background.jpg');
+    /* Replace 'background.jpg' with your background image URL */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 300px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Add some transparency to the background */
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.tabs {
+    text-align: center;
+}
+
+.tab {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.form {
+    display: none;
+}
+
+h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+</style>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button id="loginTab" class="tab active">Login</button>
+            <button id="signupTab" class="tab">Signup</button>
+        </div>
+        <div id="loginForm" class="form active">
+            <h2>Login</h2>
+            <form id="login">
+                <input type="email" id="loginUsername" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div id="signupForm" class="form">
+            <h2>Signup</h2>
+            <form id="signup">
+                <input type="text" id="signupUsername" placeholder="Username" required>
+                <input type="email" id="signupEmail" placeholder="Email" required>
+                <input type="password" id="signupPassword" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">Signup</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const loginTab = document.getElementById("loginTab");
+    const signupTab = document.getElementById("signupTab");
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+
+    loginTab.addEventListener("click", () => {
+        loginTab.classList.add("active");
+        signupTab.classList.remove("active");
+        loginForm.style.display = "block";
+        signupForm.style.display = "none";
+    });
+
+    signupTab.addEventListener("click", () => {
+        signupTab.classList.add("active");
+        loginTab.classList.remove("active");
+        signupForm.style.display = "block";
+        loginForm.style.display = "none";
+    });
+
+    const login = document.getElementById("login");
+    const signup = document.getElementById("signup");
+
+    login.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // Perform login validation and API call here
+        const loginData = {
+            email: document.getElementById("loginUsername").value,
+            password: document.getElementById("loginPassword").value
+        };
+
+        fetch("https://important-rose-nightgown.cyclic.app/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loginData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle login response data here
+                alert("logged in successfully!")
+                window.location.href = "/home";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+    signup.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // Perform signup validation and API call here
+        const signupData = {
+            username: document.getElementById("signupUsername").value,
+            email:document.getElementById("signupEmail").value,
+            password: document.getElementById("signupPassword").value
+        };
+
+        fetch("https://important-rose-nightgown.cyclic.app/api/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(signupData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle signup response data here
+                alert("user signup successful!")
+                window.location.href = "/home";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+});
+
+    </script>
+</body>
+</html>
