@@ -18,6 +18,11 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
 
+class Gallery(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image= db.Column(db.String(256), nullable=False)
+    result = db.Column(db.String(120),nullable=False)
+
 with app.app_context():
     db.create_all()
 
@@ -118,6 +123,39 @@ def signup():
 
         except Exception as e:
             return jsonify({"error": str(e)}), 500
+
+
+@app.route("/saveimage",methods=["POST"])
+def saveimage():
+    if request.method == "POST":
+        try:
+            data = request.get_json()
+            image = data.get("image")
+            result = data.get("result")
+
+            new_image = Gallery(image=image,result=result)
+            db.session.add(new_image)
+            db.session.commit()
+
+            return  jsonify({"message":"image uploaded to gallery!"}), 201
+
+        except Exception as e:
+                return jsonify({"error": str(e)}), 500
+
+@app.route("/gallery")
+def gallery():
+    # Query the Gallery table to retrieve images and results
+    images = Gallery.query.all()
+    
+    # Create a list of dictionaries containing result and image strings
+    image_data = [{"result": image.result, "image": image.image} for image in images]
+    
+    return jsonify(image_data)
+
+
+@app.route("/history")
+def history():
+    return render_template("gallery.html")
 
 
 if __name__ == "__main__":
